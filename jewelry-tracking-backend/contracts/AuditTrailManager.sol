@@ -4,14 +4,11 @@ pragma solidity ^0.8.0;
 import "./CertificateManager.sol";
 
 contract AuditTrailManager is CertificateManager {
-    struct Participant {
-        string id;
-        string name;
-        string role;
-    }
-
     struct AuditTrail {
-        Participant participant;
+        string actorId;
+        string uniqueId;
+        string batchCode;
+        string role;
         string action;
         uint256 timestamp;
     }
@@ -19,45 +16,37 @@ contract AuditTrailManager is CertificateManager {
     mapping(string => AuditTrail[]) internal auditTrails;
 
     event AuditTrailAdded(
-        string certificateId,
-        string action,
-        string participantId
+        string actorId,
+        string uniqueId,
+        string batchCode,
+        string role,
+        string action
     );
 
     function addAuditTrail(
-        string memory certificateId,
-        string memory participantId,
-        string memory participantName,
-        string memory participantRole,
+        string memory actorId,
+        string memory uniqueId,
+        string memory batchCode,
+        string memory role,
         string memory action
     ) public {
-        require(
-            bytes(certificates[certificateId].id).length != 0,
-            "Certificate does not exist"
-        );
-
         AuditTrail memory newAuditTrail = AuditTrail({
-            participant: Participant({
-                id: participantId,
-                name: participantName,
-                role: participantRole
-            }),
+            actorId: actorId,
+            uniqueId: uniqueId,
+            batchCode: batchCode,
+            role: role,
             action: action,
             timestamp: block.timestamp
         });
 
-        auditTrails[certificateId].push(newAuditTrail);
+        auditTrails[uniqueId].push(newAuditTrail);
 
-        emit AuditTrailAdded(certificateId, action, participantId);
+        emit AuditTrailAdded(actorId, uniqueId, batchCode, role, action);
     }
 
     function getAuditTrails(
-        string memory certificateId
+        string memory uniqueId
     ) public view returns (AuditTrail[] memory) {
-        require(
-            bytes(certificates[certificateId].id).length != 0,
-            "Certificate does not exist"
-        );
-        return auditTrails[certificateId];
+        return auditTrails[uniqueId];
     }
 }

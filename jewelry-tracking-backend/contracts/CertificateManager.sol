@@ -3,7 +3,8 @@ pragma solidity ^0.8.0;
 
 contract CertificateManager {
     struct Certificate {
-        string id;
+        string certificateId;
+        string uniqueId;
         string batchCode;
         string state;
         string price;
@@ -16,7 +17,8 @@ contract CertificateManager {
 
     // 声明事件 CertificateCreated
     event CertificateCreated(
-        string id,
+        string certificateId,
+        string uniqueId,
         string batchCode,
         string state,
         string price,
@@ -26,7 +28,8 @@ contract CertificateManager {
     );
 
     function createCertificate(
-        string memory id,
+        string memory certificateId,
+        string memory uniqueId,
         string memory batchCode,
         string memory state,
         string memory price,
@@ -35,12 +38,13 @@ contract CertificateManager {
         string memory signature
     ) public {
         require(
-            bytes(certificates[id].id).length == 0,
+            bytes(certificates[certificateId].certificateId).length == 0,
             "Certificate already exists"
         );
 
-        certificates[id] = Certificate({
-            id: id,
+        certificates[certificateId] = Certificate({
+            certificateId: certificateId,
+            uniqueId: uniqueId,
             batchCode: batchCode,
             state: state,
             price: price,
@@ -51,7 +55,8 @@ contract CertificateManager {
 
         // 触发事件，将数据广播给链下
         emit CertificateCreated(
-            id,
+            certificateId,
+            uniqueId,
             batchCode,
             state,
             price,
@@ -62,12 +67,12 @@ contract CertificateManager {
     }
 
     function getCertificate(
-        string memory id
+        string memory certificateId
     ) public view returns (Certificate memory) {
         require(
-            bytes(certificates[id].id).length != 0,
+            bytes(certificates[certificateId].certificateId).length != 0,
             "Certificate does not exist"
         );
-        return certificates[id];
+        return certificates[certificateId];
     }
 }
