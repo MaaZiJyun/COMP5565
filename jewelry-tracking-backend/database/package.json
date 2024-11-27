@@ -1,0 +1,17 @@
+{
+  "name": "jewelry-tracking-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "pg": "^8.x.x",
+    "pg-hstore": "^2.x.x",
+    "sequelize": "^6.x.x",
+    "web3": "^4.15.0",
+    "winston": "^3.17.0"
+  }
+}
