@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { BrowserProvider, ethers } from "ethers";
 import { Contract } from "ethers";
 
-const contractAddress = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9";
+const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 const contractABI = [
   {
     anonymous: false,
@@ -136,7 +136,7 @@ const TestForm = () => {
       // 检查并自动切换网
       if (network.chainId.toString() !== "31337") {
         alert("Switching network to Sepolia...");
-        await switchNetwork(31337); // 自动切换到 Sepolia 测试网的 chainId
+        await switchNetwork(31337); 
       } else {
         // Call Smart Contract Function
         const tx = await contract.createTest(form.id, parseInt(form.number));

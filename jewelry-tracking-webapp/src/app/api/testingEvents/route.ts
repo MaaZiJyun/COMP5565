@@ -4,7 +4,7 @@ import pg from "pg";
 
 // 配置 PostgreSQL 数据库连接
 const pool = new pg.Pool({
-    user: "domuki",        // PostgreSQL 用户名
+    user: "cailing",        // PostgreSQL 用户名
     host: "localhost",       // 数据库地址
     database: "testing", // 数据库名称
     password: "password",     // 数据库密码

@@ -6,7 +6,7 @@ import { ethers } from "ethers";
 import pool from "./db.js"; // 使用 CommonJS 的 require
 
 // 初始化合约信息
-const contractAddress = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9";
+const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 const contractABI = [
     {
         "anonymous": false,
@@ -74,10 +74,10 @@ const contractABI = [
 // Provider 和 Signer 配置
 const provider = new ethers.WebSocketProvider("ws://127.0.0.1:8545");
 const localProvider = new ethers.JsonRpcProvider("http://127.0.0.1:8545");
-const privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
-const signer = new ethers.Wallet(privateKey, localProvider);
+// const privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+// const signer = new ethers.Wallet(privateKey, localProvider);
 
-const contract = new ethers.Contract(contractAddress, contractABI, signer);
+// const contract = new ethers.Contract(contractAddress, contractABI, signer);
 const wsContract = new ethers.Contract(contractAddress, contractABI, provider);
 
 // 发送交易并打印交易日志

@@ -1,36 +1,123 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Clone project to local: 
+```bash
+git clone https://github.com/MaaZiJyun/COMP5565.git
+```
+## Set up Front-end
+open a new terminal named "front".
 
-## Getting Started
+```bash
+cd jewelry-tracking-webapp
+```
 
-First, run the development server:
+run the command to install dependencies
+
+```bash
+npm install
+```
+
+then run the webapp to see if there's any error
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+the front should run in the port 3000 (http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Set up Backend
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+open a new terminal named "back", and run the command to go the directory of backend.
 
-## Learn More
+```bash
+cd jewelry-tracking-backend
+```
 
-To learn more about Next.js, take a look at the following resources:
+run the command to test if hardhat is available
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npx hardhat node
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+run the command to deploy contracts
 
-## Deploy on Vercel
+```bash
+npx hardhat run scripts/deploy.ts --network localhost
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+get the address of the contract that has been deployed: (Example: 0x5FbDB2315678afecb367f032d93F642f64180aa3)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+contractAddress: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+```
+
+## Set up Database
+
+run the command to go to the directory of database
+
+```bash
+cd jewelry-tracking-backend/database
+```
+
+run command to test if there's psql has been set up
+
+```bash
+psql --version
+```
+
+if not, then install PostgreSQL by the command below:
+
+```bash
+brew install postgresql
+```
+
+then run the command to view the list of database
+
+```bash
+psql -U <username> -d postgres
+```
+
+the output will be like: 
+
+```
+postgres=# \l
+                                List of databases
+      Name      |  Owner  | Encoding | Collate | Ctype |    Access privileges    
+----------------+---------+----------+---------+-------+-------------------------
+ fabricexplorer | cailing | UTF8     | C       | C     | =Tc/cailing            +
+                |         |          |         |       | cailing=CTc/cailing    +
+                |         |          |         |       | hyperledger=CTc/cailing
+ postgres       | cailing | UTF8     | C       | C     | 
+ template0      | cailing | UTF8     | C       | C     | =c/cailing             +
+                |         |          |         |       | cailing=CTc/cailing
+ template1      | cailing | UTF8     | C       | C     | =c/cailing             +
+                |         |          |         |       | cailing=CTc/cailing
+```
+
+then create database named "testing"
+
+```sql
+CREATE DATABASE testing;
+```
+
+then change the basic setting in the file of db.js
+
+```js
+const pool = new Pool({
+  user: "cailing",       // PostgreSQL 用户名
+  host: "localhost",      // 数据库所在的主机
+  database: "testing", // 数据库名称
+  password: "password", // 数据库密码
+  port: 5432,             // 默认 PostgreSQL 端口
+});
+```
+
+
+Failed to insert event into database: error: relation "test_created_events" does not exist
+
+```sql
+CREATE TABLE test_created_events (
+    id SERIAL PRIMARY KEY,
+    event_name TEXT NOT NULL,
+    event_date TIMESTAMP NOT NULL
+);
+
+```
