@@ -7,10 +7,13 @@ async function main() {
   const MainContract = await ethers.getContractFactory("TestContract");
   const contract = await MainContract.deploy();
 
-  console.log("Deploy transaction hash:", contract.deploymentTransaction().hash);
+  const deployTx = contract.deploymentTransaction();
+  if (!deployTx) throw new Error("Deployment transaction failed");
+  
+  console.log("Deploy transaction hash:", deployTx.hash);
 
   // 等待区块确认部署
-  const receipt = await contract.deploymentTransaction().wait();
+  const receipt = await deployTx.wait();
   console.log("Contract deployed at:", await contract.getAddress());
   console.log("Transaction receipt:", receipt);
 }

@@ -9,7 +9,6 @@ contract AuditTrailManager is CertificateManager {
         string uniqueId;
         string batchCode;
         string role;
-        string action;
         uint256 timestamp;
     }
 
@@ -19,29 +18,26 @@ contract AuditTrailManager is CertificateManager {
         string actorId,
         string uniqueId,
         string batchCode,
-        string role,
-        string action
+        string role
     );
 
     function addAuditTrail(
         string memory actorId,
         string memory uniqueId,
         string memory batchCode,
-        string memory role,
-        string memory action
+        string memory role
     ) public {
         AuditTrail memory newAuditTrail = AuditTrail({
             actorId: actorId,
             uniqueId: uniqueId,
             batchCode: batchCode,
             role: role,
-            action: action,
             timestamp: block.timestamp
         });
 
         auditTrails[uniqueId].push(newAuditTrail);
 
-        emit AuditTrailAdded(actorId, uniqueId, batchCode, role, action);
+        emit AuditTrailAdded(actorId, uniqueId, batchCode, role);
     }
 
     function getAuditTrails(

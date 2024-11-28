@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { BrowserProvider, ethers } from "ethers";
 import { Contract } from "ethers";
 
-const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+const contractAddress = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9";
 const contractABI = [
   {
     anonymous: false,
@@ -92,21 +92,21 @@ const TestForm = () => {
   };
 
   // 请求用户切换到正确的网络
-  const switchNetwork = async (chainId: number) => {
-    try {
-      await window.ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: ethers.toBeHex(chainId) }], // 转为十六进制的 chainId
-      });
-    } catch (switchError: any) {
-      // 如果网络未添加到钱包中
-      if (switchError.code === 4902) {
-        alert("Network not found in Metamask. Please add it manually.");
-      } else {
-        console.error("Failed to switch network:", switchError);
-      }
-    }
-  };
+  // const switchNetwork = async (chainId: number) => {
+  //   try {
+  //     await window.ethereum.request({
+  //       method: "wallet_switchEthereumChain",
+  //       params: [{ chainId: ethers.toBeHex(chainId) }], // 转为十六进制的 chainId
+  //     });
+  //   } catch (switchError: any) {
+  //     // 如果网络未添加到钱包中
+  //     if (switchError.code === 4902) {
+  //       alert("Network not found in Metamask. Please add it manually.");
+  //     } else {
+  //       console.error("Failed to switch network:", switchError);
+  //     }
+  //   }
+  // };
 
   const handleSubmit = async (e:any) => {
     e.preventDefault();
@@ -136,7 +136,7 @@ const TestForm = () => {
       // 检查并自动切换网
       if (network.chainId.toString() !== "31337") {
         alert("Switching network to Sepolia...");
-        await switchNetwork(31337); 
+        // await switchNetwork(31337); 
       } else {
         // Call Smart Contract Function
         const tx = await contract.createTest(form.id, parseInt(form.number));
